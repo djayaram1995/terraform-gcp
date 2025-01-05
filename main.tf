@@ -1,3 +1,15 @@
+resource "google_compute_subnetwork" "cool" {
+  name          = "cool"
+  ip_cidr_range = "10.2.0.0/16"
+  region        = "us-central1"
+  network       = google_compute_network.cool.id
+}
+
+resource "google_compute_network" "cool" {
+  name                    = "cool"
+  auto_create_subnetworks = false
+}
+
 data "google_compute_image" "ubuntu" {
   most_recent = true
   project     = "ubuntu-os-cloud" 
@@ -15,7 +27,7 @@ resource "google_compute_instance" "web" {
     }
   }
   network_interface {
-   subnetwork = "default"
+   subnetwork = "app"
    access_config {
       # Leave empty for dynamic public IP
     }
